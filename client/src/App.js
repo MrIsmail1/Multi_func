@@ -13,13 +13,13 @@ import ForceRedirect from "./components/ForceRedirect";
 
 function App() {
   const user = {
-    isConnected: true,
+    isConnected: false,
     role: "USER",
   };
   return (
     <BrowserRouter>
       <div class="bg-light" style={{ height: "100vh" }}>
-        <NavBar />
+        <NavBar user={user} />
         <Routes>
           <Route
             path="/"

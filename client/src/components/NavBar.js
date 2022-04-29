@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function NavBar() {
+function NavBar({user}) {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -21,11 +21,13 @@ function NavBar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
+            {
+              user.role === "ADMIN" ? (<li className="nav-item">
               <Link className="nav-link active" aria-current="page" to="/">
-                Profile
+                Admin
               </Link>
-            </li>
+            </li>) : ("")
+            }
           </ul>
           <div className="d-flex">
             <div className="mx-4">

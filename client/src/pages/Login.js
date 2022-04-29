@@ -1,7 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginAction } from "../redux/actions/authActions";
+import Inputs from "./../components/Inputs";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function Login() {
+  const [form, setForm] = useState({});
+  const dispatch = useDispatch();
+  const errors = useSelector((state) => state.errors);
+  const navigate = useNavigate();
+  const onChangeHandler = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    dispatch(LoginAction(form, navigate));
+  };
   return (
     <div className="container p-4 mt-4">
       <div className="row justify-content-evenly mt-4">
@@ -14,25 +32,23 @@ function Login() {
             className="p-6 shadow-lg p-3 mb-5 bg-body rounded"
             style={{ backgroundColor: "white" }}
           >
-            <form>
-              <div className=" mb-3">
-                <label className="form-label">Email address</label>
-                <div className="input-group">
-                  <span className="input-group-text" id="basic-addon1">
-                    <i className="fa-solid fa-at"></i>
-                  </span>
-                  <input type="text" className="form-control" />
-                </div>
-              </div>
-              <div className=" mb-3">
-                <label className="form-label">Password</label>
-                <div className="input-group">
-                  <span className="input-group-text" id="basic-addon1">
-                    <i className="fa-solid fa-key"></i>
-                  </span>
-                  <input type="password" className="form-control" />
-                </div>
-              </div>
+            <form onSubmit={onSubmitHandler}>
+              <Inputs
+                name="email"
+                label="Email"
+                type="text"
+                icon="fa-solid fa-at"
+                onChangeHandler={onChangeHandler}
+                errors={errors.email}
+              />
+              <Inputs
+                name="password"
+                label="Password"
+                type="password"
+                icon="fa-solid fa-key"
+                onChangeHandler={onChangeHandler}
+                errors={errors.password}
+              />
               <div className="d-flex justify-content-between">
                 <button type="submit" className="btn btn-outline-primary">
                   Save <i className="fa-solid fa-floppy-disk"></i>

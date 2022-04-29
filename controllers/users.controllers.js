@@ -57,7 +57,7 @@ const Login = async (req, res) => {
               );
               res.status(200).json({
                 message: "Sucess",
-                token: token,
+                token: "Bearer " + token,
               });
             }
           });
@@ -69,14 +69,14 @@ const Login = async (req, res) => {
   }
 };
 const Test = (req, res) => {
-    res.send("You're signed in as a User")
+  res.send("You're signed in as a User");
 };
 const Admin = (req, res) => {
-res.send("You're signed in as Admin")
-}
+  res.send("You're signed in as Admin");
+};
 module.exports = {
   Register,
   Login,
   Test,
-  Admin
+  Admin,
 };

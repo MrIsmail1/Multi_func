@@ -8,10 +8,10 @@ module.exports = function ValidateLogin(data) {
   data.password = !isEmpty(data.password) ? data.password : "";
 
   if (!validator.isEmail(data.email)) {
-    errors.Email = "Email format is Required ";
+    errors.email = "Email format is Required ";
   }
   if (validator.isEmpty(data.email)) {
-    errors.Email = "Email is Required ";
+    errors.email = "Email is Required ";
   }
   if (validator.isEmpty(data.password)) {
     errors.password = "Password is required";

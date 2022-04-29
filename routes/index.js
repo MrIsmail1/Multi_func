@@ -16,7 +16,7 @@ const {
 var router = express.Router();
 
 /* users routes*/
-router.put("/register", Register);
+router.post("/register", Register);
 router.post("/login", Login);
 
 /*profile routes*/
