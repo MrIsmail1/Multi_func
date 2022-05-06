@@ -1,7 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Logout } from "./../redux/actions/authActions";
 
-function NavBar({user}) {
+function NavBar({ user }) {
+  const dispatch = useDispatch();
+  const LoginHandler = () => {
+    dispatch(Logout());
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -21,20 +28,40 @@ function NavBar({user}) {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {
-              user.role === "ADMIN" ? (<li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">
-                Admin
-              </Link>
-            </li>) : ("")
-            }
+            {user.role === "ADMIN" ? (
+              <li className="nav-item">
+                <Link
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/admin"
+                >
+                  Admin
+                </Link>
+              </li>
+            ) : (
+              ""
+            )}
           </ul>
           <div className="d-flex">
             <div className="mx-4">
-              <span className="text-black-50">Mansouri</span>
-              <Link className="btn btn-outline-primary" to="/login">
-                Logout
-              </Link>
+              {!user.isConnected ? (
+                <>
+                  <Link className="btn btn-outline-primary" to="/login">
+                    Login
+                  </Link>
+                  <Link className="btn btn-outline-primary" to="/register">
+                    Register
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  className="btn btn-outline-primary"
+                  to="#"
+                  onClick={LoginHandler}
+                >
+                  Logout
+                </Link>
+              )}
             </div>
           </div>
         </div>
