@@ -1,7 +1,7 @@
 import React from "react";
 import Classnames from "classnames";
 
-function Inputs({ name, label, type, icon, onChangeHandler, errors }) {
+function Inputs({ name, label, value, type, icon, onChangeHandler, errors }) {
   return (
     <div className=" mb-3">
       <label className="form-label">{label}</label>
@@ -12,6 +12,7 @@ function Inputs({ name, label, type, icon, onChangeHandler, errors }) {
         <input
           type={type}
           name={name}
+          value={value}
           className={Classnames("form-control", { "is-invalid": errors })}
           onChange={onChangeHandler}
         />

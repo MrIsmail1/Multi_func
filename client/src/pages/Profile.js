@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import { AddProfile } from "../redux/actions/profileActions";
+import React, { useEffect, useState } from "react";
+import { AddProfile, GetProfile } from "../redux/actions/profileActions";
 import Inputs from "./../components/Inputs";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import Classnames  from "classnames";
+import Classnames from "classnames";
 
 function Profile() {
   const [form, setForm] = useState({});
   const dispatch = useDispatch();
   const errors = useSelector((state) => state.errors);
+  const profiles = useSelector((state) => state.profiles);
+  const [message, setMessage] = useState("");
+  const [alert, setAlert] = useState(false);
   const onChangeHandler = (e) => {
     setForm({
       ...form,
@@ -17,10 +20,21 @@ function Profile() {
   };
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    dispatch(AddProfile(form));
+    dispatch(AddProfile(form, setAlert, setMessage));
   };
+  useEffect(() => {
+    dispatch(GetProfile());
+    setForm(profiles.profile);
+  }, []);
   return (
     <div className="container p-4 mt-4">
+      <div
+        className="alert alert-success"
+        role="alert"
+        style={{ display: alert ? "block" : "none" }}
+      >
+        {message}
+      </div>
       <div className="row justify-content-evenly mt-4">
         <div className="col-lg-6 col-md-12 mt-4">
           <div className="d-flex">
@@ -38,6 +52,7 @@ function Profile() {
                 icon="fa-solid fa-phone"
                 onChangeHandler={onChangeHandler}
                 errors={errors.tel}
+                value={form && form.tel ? form.tel : ""}
               />
               <Inputs
                 name="country"
@@ -45,6 +60,7 @@ function Profile() {
                 type="text"
                 onChangeHandler={onChangeHandler}
                 errors={errors.country}
+                value={form && form.country ? form.country : ""}
               />
               <Inputs
                 name="city"
@@ -52,6 +68,7 @@ function Profile() {
                 type="text"
                 onChangeHandler={onChangeHandler}
                 errors={errors.city}
+                value={form && form.city ? form.city : ""}
               />
               <Inputs
                 name="postalcode"
@@ -59,6 +76,7 @@ function Profile() {
                 type="text"
                 onChangeHandler={onChangeHandler}
                 errors={errors.postalcode}
+                value={form && form.postalcode ? form.postalcode : ""}
               />
               <div className=" mb-3">
                 <label className="form-label">Address</label>
@@ -70,6 +88,7 @@ function Profile() {
                     })}
                     name="address"
                     onChange={onChangeHandler}
+                    value={form && form.address ? form.address : ""}
                   ></textarea>
                   {errors.address && (
                     <div className="invalid-feedback">{errors.address}</div>

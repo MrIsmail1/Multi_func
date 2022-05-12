@@ -2,6 +2,7 @@ import axios from "axios";
 import { ERRORS } from "../types";
 import jwt_decode from "jwt-decode";
 import { SET_USER } from "./../types";
+import { setAuth } from "../../util/setAuth";
 
 export const Registration = (form, navigate) => (dispatch) => {
   axios
@@ -28,6 +29,7 @@ export const LoginAction = (form, navigate) => (dispatch) => {
       localStorage.setItem("jwt", token);
       const decode = jwt_decode(token);
       dispatch(setUser(decode));
+      setAuth(token);
     })
     .catch((err) => {
       dispatch({
@@ -37,13 +39,13 @@ export const LoginAction = (form, navigate) => (dispatch) => {
     });
 };
 
-export const Logout = () => dispatch => {
+export const Logout = () => (dispatch) => {
   localStorage.removeItem("jwt");
   dispatch({
     type: SET_USER,
-    payload: {}
-  })
-}
+    payload: {},
+  });
+};
 export const setUser = (decode) => ({
   type: SET_USER,
   payload: decode,

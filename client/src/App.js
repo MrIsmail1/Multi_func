@@ -10,14 +10,20 @@ import AccessDenied from "./pages/AccessDenied";
 import PrivateRouter from "./components/PrivateRouter";
 import AdminRouter from "./components/AdminRouter";
 import ForceRedirect from "./components/ForceRedirect";
-import { setUser } from "./redux/actions/authActions";
+import { Logout, setUser } from "./redux/actions/authActions";
 import jwt_decode from "jwt-decode";
 import store from "./redux/store";
 import { useSelector } from "react-redux";
+import { setAuth } from './util/setAuth';
 
-if (localStorage.jwt) {
+if (window.localStorage.jwt) {
   const decode = jwt_decode(localStorage.jwt);
   store.dispatch(setUser(decode));
+  setAuth(window.localStorage.jwt)
+  const currentDate = Date.now / 1000;
+  if (decode.exp >= currentDate) {
+  store.dipatch(Logout())
+  }
 }
 
 function App() {
